@@ -54,6 +54,8 @@ public class ProductController {
         return ResponseEntity.ok(productService.removeFromCart(id));
     }
 
+
+
 //    @PutMapping("/cart/clear")
 //    public ResponseEntity<ProductDTO> clearCart() {
 //        return ResponseEntity.ok(productService.clearCart);

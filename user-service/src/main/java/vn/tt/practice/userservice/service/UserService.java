@@ -38,6 +38,7 @@ public class UserService {
             throw new RuntimeException("Username or password is incorrect");
         }
         return UserDTO.builder()
+                .id(user.get().getId())
                 .email(user.get().getEmail())
                 .username(user.get().getEmail())
                 .expirationDate(864000000)

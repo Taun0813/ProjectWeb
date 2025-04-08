@@ -12,7 +12,9 @@ public class ProductMapper {
                 .id(productDTO.getId())
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())
-                .productImage(productDTO.getProductImage())
+                .image(productDTO.getImage())
+                .checkToCart(productDTO.isCheckToCart())
+                .rating(productDTO.getRating())
                 .build();
     }
 
@@ -21,7 +23,9 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
-                .productImage(product.getProductImage())
+                .image(product.getImage())
+                .rating(product.getRating())
+                .checkToCart(product.isCheckToCart())
                 .build();
     }
 }

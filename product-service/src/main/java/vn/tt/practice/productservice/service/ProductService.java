@@ -42,11 +42,6 @@ public class ProductService {
         return null;
     }
 
-//    public ProductDTO updateProduct(String id, ProductDTO productDTO) {
-//        if (!productRepo.existsById(id)) {
-//            throw new RuntimeException("Product not found");
-//        }
-//    }
 
 
 

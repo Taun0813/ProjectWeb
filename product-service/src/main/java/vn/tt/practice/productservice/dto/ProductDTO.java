@@ -15,5 +15,7 @@ public class ProductDTO {
     @NotBlank(message = "Price cannot be blank")
     private double price;
     private String description;
-    private String productImage;
+    private String image;
+    private boolean checkToCart;
+    private Integer rating;
 }
