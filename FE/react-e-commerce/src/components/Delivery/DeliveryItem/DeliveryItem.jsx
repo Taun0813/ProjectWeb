@@ -57,9 +57,9 @@ const DeliveryItem = ({ order }) => {
       <div className="delivery-overview">
         <div className="delivery-summary">
           <div className="delivery-order-number">
-            <h2 className="delivery-item-title order-main" title={order._id}>
+            <h2 className="delivery-item-title order-main" title={order.id}>
               Order: <span>#</span>
-              {order._id.slice(0, 6)}
+              {order.id.slice(0, 6)}
             </h2>
             <div className="delivery-items">
               <h5>Item Count: {order.totalItemCount}</h5>
@@ -108,7 +108,7 @@ const DeliveryItem = ({ order }) => {
             <div className="delivery-products">
               {order.items.map((item) => {
                 return (
-                  <div className="delivery-products-item" key={item._id}>
+                  <div className="delivery-products-item" key={item.id}>
                     <img src={item.product_image} alt="" width="50" />
                     <h5>Product Name: {item.name}</h5>
                     <h5>Description: {item.description}</h5>
@@ -126,7 +126,7 @@ const DeliveryItem = ({ order }) => {
                 <button
                   className="btn-rounded danger-zone-button"
                   onClick={() => {
-                    handleOpenCancelModal(order._id);
+                    handleOpenCancelModal(order.id);
                   }}
                 >
                   Cancel Order
@@ -135,7 +135,7 @@ const DeliveryItem = ({ order }) => {
                   className="btn-rounded danger-zone-button report-issue"
                   onClick={() => {
                     // mailto link
-                    window.location.href = `mailto:www.minisylar3@gmail.com?subject=Reporting Order #${order._id.slice(
+                    window.location.href = `mailto:www.minisylar3@gmail.com?subject=Reporting Order #${order.id.slice(
                       0,
                       6
                     )}`;

@@ -13,10 +13,10 @@ const DeliveryView = () => {
   useEffect(() => {
     if (auth.state.user) {
       setLoadingOrders(true);
-      if (orders.state.orders.length <= 0) {
+      // console.log(orders.state)
+      if (orders.state.orders?.length <= 0) {
         orders.getOrders(auth.state.user.id);
-      }
-      if (orders.state.orders.length > 0) {
+      }else{
         setLoadingOrders(false);
       }
     } else {
@@ -47,10 +47,10 @@ const DeliveryView = () => {
               Reload Orders
             </button>
           </div>
-          {(orders.state.orders.length > 0 &&
-            orders.state.orders.map((order) => {
+          {(orders.state.orders?.length > 0 &&
+            orders.state.orders?.map((order) => {
               return (
-                <DeliveryItem key={order._id} order={order}></DeliveryItem>
+                <DeliveryItem key={order.id} order={order}></DeliveryItem>
               );
             })) || <Skeleton height={500}></Skeleton>}
         </div>

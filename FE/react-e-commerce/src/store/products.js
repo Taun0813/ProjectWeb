@@ -38,7 +38,7 @@ const reducer = (state, action) => {
 
     const updatedProducts = action.products.map((product) => {
       const cartItem = action.backed_up_cart.find(
-        (item) => item._id === product._id
+        (item) => item.id === product.id
       );
       if (cartItem) {
         return { ...cartItem, addedToCart: true };
@@ -57,7 +57,7 @@ const reducer = (state, action) => {
   // ADD TO CART
   if (action.type == actions.ADD_TO_CART) {
     const product = state.products.find(
-      (product) => product._id == action.product
+      (product) => product.id == action.product
     );
     product.addedToCart = true;
     product.quantity = 1;
@@ -75,10 +75,10 @@ const reducer = (state, action) => {
   // Remove from cart
   if (action.type == actions.REMOVE_FROM_CART) {
     const product = state.products.find(
-      (product) => product._id == action.product
+      (product) => product.id == action.product
     );
     const newCart = state.cart.filter(
-      (product) => product._id != action.product
+      (product) => product.id != action.product
     );
     const updatedProduct = { ...product, addedToCart: false };
     localforage.setItem("cartItems", newCart);
@@ -91,7 +91,7 @@ const reducer = (state, action) => {
     return {
       ...state,
       products: state.products.map((p) =>
-        p._id === product._id ? updatedProduct : p
+        p.id === product.id ? updatedProduct : p
       ),
       cart: newCart,
       cartQuantity: state.cartQuantity - 1,
@@ -101,7 +101,7 @@ const reducer = (state, action) => {
 
   // add quantity
   if (action.type == actions.ADD_QUANTITY) {
-    const product = state.cart.find((product) => product._id == action.product);
+    const product = state.cart.find((product) => product.id == action.product);
     product.quantity = product.quantity + 1;
 
     return {
@@ -112,7 +112,7 @@ const reducer = (state, action) => {
 
   // reduce quantity
   if (action.type == actions.REDUCE_QUANTITY) {
-    const product = state.cart.find((product) => product._id == action.product);
+    const product = state.cart.find((product) => product.id == action.product);
     if (product.quantity == 1) {
       return state;
     }
@@ -156,7 +156,9 @@ const useStore = () => {
     dispatch({ type: actions.CLEAR_CART });
   };
   const getProducts = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/products`)
+    // fetch(`${import.meta.env.VITE_API_URL}/products`)
+    // fetch(`http://localhost:8081/v1/api/products`)
+    fetch(`${import.meta.env.VITE_PRODUCT_URL}/products`)
       .then(async (response) => {
         const data = await response.json();
         let modifiedData = data.map((product) => {
@@ -198,7 +200,7 @@ const useStore = () => {
       user_id: order.user_id,
     };
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/place-order`,
+      `${import.meta.env.VITE_ORDER_URL}/place-order`,
       {
         method: "POST",
         headers: {

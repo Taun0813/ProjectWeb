@@ -28,7 +28,7 @@ const useAuth = () => {
 
   const register = async (userInfo) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
+      const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const useAuth = () => {
 
   const login = async (userInfo) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
+      const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ const useAuth = () => {
 
   const logout = async () => {
     const token = await localStorage.getItem('token')
-    await fetch(`${import.meta.env.VITE_API_URL}/user/logout`, {
+    await fetch(`${import.meta.env.VITE_AUTH_URL}/user/logout`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
