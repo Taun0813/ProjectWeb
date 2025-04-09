@@ -20,7 +20,7 @@ const Order = () => {
             store.state.cart.map((product) => {
               return (
                 <OrderDetails
-                  key={product._id}
+                  key={product.id}
                   product={product}
                 ></OrderDetails>
               );

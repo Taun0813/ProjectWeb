@@ -18,7 +18,7 @@ const TopProducts = () => {
         {store.state.products.length > 0 ? (
           <div className="contains-product">
             {topProducts.map((product) => {
-              return <Product key={product._id} product={product}></Product>;
+              return <Product key={product.id} product={product}></Product>;
             })}
           </div>
         ) : (

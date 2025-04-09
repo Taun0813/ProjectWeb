@@ -26,7 +26,7 @@ const useOrders = () => {
 
   const getOrders = async (user_id) => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/get-orders/${user_id}`,
+      `${import.meta.env.VITE_ORDER_URL}/${user_id}/get-orders`,
       {
         method: "GET",
         headers: {
@@ -41,17 +41,17 @@ const useOrders = () => {
     if (data.error) {
       return data.error;
     }
-    dispatch({ type: actions.GET_ORDERS, orders: data.orders });
+    dispatch({ type: actions.GET_ORDERS, orders: data});
     return data.orders;
   };
 
   const setOrderToBeCanceled = (order_id) => {
-    dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id });
+    dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id:order_id });
   };
 
   const cancelOrder = async (order_id) => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/cancel-order`,
+      `${import.meta.env.VITE_ORDER_URL}/cancel-order`,
       {
         method: "POST",
         headers: {
@@ -59,7 +59,7 @@ const useOrders = () => {
         },
         mode: "cors",
         credentials: "include",
-        body: JSON.stringify({ order_id }),
+        body: JSON.stringify({ id: order_id }),
       }
     );
 
@@ -69,9 +69,15 @@ const useOrders = () => {
       return data.error;
     }
 
-    dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id: null });
-    getOrders(data.user_id);
-
+    // dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id: null });
+    // getOrders(data.user_id);
+      dispatch({
+          type: actions.UPDATE_ORDER_STATUS,
+          payload: {
+              order_id: data.order_id,
+              status: data.status,
+          },
+      });
     return data;
   };
 

@@ -15,7 +15,7 @@ const Product = ({ product }) => {
     <div className="product-container">
       <div className="image">
         <img
-          src={product?.product_image || headphones_pink}
+          src={product?.image || headphones_pink}
           alt="Product Image"
           width={"100%"}
         />
@@ -44,7 +44,7 @@ const Product = ({ product }) => {
                   toast.warning("You can only add 10 items to cart");
                   return;
                 }
-                store.addToCart(product?._id);
+                store.addToCart(product?.id);
               }}
             >
               Add to Cart
@@ -53,7 +53,7 @@ const Product = ({ product }) => {
             <button
               className="add-to-cart"
               onClick={() => {
-                store.removeFromCart(product?._id);
+                store.removeFromCart(product?.id);
               }}
             >
               Remove from cart
