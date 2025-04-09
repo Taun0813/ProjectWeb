@@ -18,6 +18,7 @@ public class OrderMapper {
                 .promo_code(orderDTO.getPromo_code())
                 .totalItemCount(orderDTO.getTotalItemCount())
                 .user_id(orderDTO.getUser_id())
+                .status(orderDTO.getStatus())
                 .build();
 
     }
@@ -35,6 +36,7 @@ public class OrderMapper {
                 .promo_code(order.getPromo_code())
                 .totalItemCount(order.getTotalItemCount())
                 .user_id(order.getUser_id())
+                .status(order.getStatus())
                 .build();
 
     }

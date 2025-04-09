@@ -11,7 +11,9 @@ import vn.tt.practice.oderservice.model.Order;
 import vn.tt.practice.oderservice.repository.OrderRepo;
 import vn.tt.practice.oderservice.service.OrderService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -34,5 +36,11 @@ public class OrderController {
     @GetMapping("/{user_id}/get-orders")
     public ResponseEntity<List<Payload>> getOrderById(@PathVariable String user_id) {
         return ResponseEntity.ok().body(orderService.findByUserId(user_id));
+    }
+
+    @PostMapping("/cancel-order")
+    public ResponseEntity<Payload> cancelOrder(@RequestBody Payload payload) {
+        return ResponseEntity.ok().body(orderService.cancelOrder(payload.getId()));
+
     }
 }

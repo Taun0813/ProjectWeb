@@ -21,5 +21,6 @@ public class Payload {
     private String promo_code;
     private String contact_number;
     private String user_id;
+    private String status;
 
 }

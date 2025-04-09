@@ -13,6 +13,7 @@ import vn.tt.practice.oderservice.repository.OrderRepo;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +24,7 @@ public class OrderService {
     private final MongoTemplate mongoTemplate;
 
     public Payload placeOrder(Payload payload) {
+        payload.setStatus("pending");
         return orderMapper.toDTO(orderRepo.save(orderMapper.toEntity(payload)));
     }
 
@@ -39,5 +41,14 @@ public class OrderService {
         return orders.stream()
                 .map(orderMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Payload cancelOrder(String id) {
+        Order order = orderRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + id));
+
+        order.setStatus("CANCELED");
+        return orderMapper.toDTO(orderRepo.save(order));
+
     }
 }
