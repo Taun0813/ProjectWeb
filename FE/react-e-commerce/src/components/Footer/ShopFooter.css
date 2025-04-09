@@ -1,47 +1,80 @@
-.useful-links {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.footer-wrapper {
+  background: #fff;
+  font-size: 0.9rem;
+  color: #222;
+  border-top: 1px solid #ddd;
+  padding-top: 2rem;
 }
 
-.logo-text {
-  font-size: clamp(3rem, 5vw, 5rem);
-  margin-bottom: 0;
-}
-
-.useful-details {
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  font-size: clamp(0.5rem, 1.5vw, 1rem);
-}
-
-.bottom-section {
+.footer-main {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: #ff8b15;
+  flex-wrap: wrap;
+  padding: 0 2rem;
+  gap: 2rem;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 180px;
+}
+
+.footer-col h4 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footer-col p, .footer-col a {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: #ff8b15;
+}
+
+.support button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  background: black;
   color: white;
+  border: none;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
 }
 
-.bottom-section-left ul {
-  display: flex;
-  gap: 1rem;
-
+.support .thongbao-img {
+  width: 130px;
+  margin-top: 1rem;
 }
 
-@media screen and (max-width:768px) {
-  
-  .bottom-section{
-    flex-direction: column;
-  }
-
-  .bottom-section-left ul{
-   width: 100%;
-   padding: 0;
-  }
-  
+.highlight {
+  color: red;
+  font-weight: bold;
 }
 
+.pay-img {
+  width: 100%;
+  max-width: 120px;
+  margin-top: 0.5rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  font-size: 0.85rem;
+  border-top: 1px solid #ccc;
+  position: relative;
+}
+
+.footer-logo {
+  position: absolute;
+  right: 2rem;
+  bottom: 1rem;
+  width: 50px;
+  opacity: 0.5;
+}

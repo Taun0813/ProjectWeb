@@ -3,13 +3,12 @@
 }
 
 .nav-container {
+  position: relative;
   display: flex;
-  gap: 1rem;
-  justify-content: space-evenly;
-  width: 100%;
   align-items: center;
-  min-height: 5rem;
-  color: white;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #ff8b15;
 }
 
 .links,
@@ -18,18 +17,30 @@
   width: 100%;
 }
 
-.links {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
+.desktop-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
-.desktop-links {
+.links {
   display: flex;
-  gap: 1rem;
-  justify-content: space-around;
-  width: 100%;
+  gap: 2rem; /* hoặc 3rem nếu vẫn sát */
+  align-items: center;
 }
+
+
+.desktop-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;            
+  gap: 2rem;                
+  white-space: nowrap;      
+  align-items: center;
+}
+
 .links a {
   width: 100%;
   text-decoration: none;
