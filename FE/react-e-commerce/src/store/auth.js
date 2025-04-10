@@ -88,6 +88,59 @@ const useAuth = () => {
       toast.error("There was a problem logging in, try again");
     }
   };
+  // const login = async (userInfo) => {
+  //   try {
+  //     // Giả lập delay như đang gọi API
+  //     await new Promise((resolve) => setTimeout(resolve, 500));
+  
+  //     // Danh sách user mẫu
+  //     const mockUsers = [
+  //       {
+  //         id: "1",
+  //         name: "John Doe",
+  //         email: "user@gmail.com",
+  //         password: "12345",
+  //         role: "false",
+  //       },
+  //       {
+  //         id: "2",
+  //         name: "Admin User",
+  //         email: "admin@gmail.com",
+  //         password: "12345",
+  //         role: "true",
+  //       },
+  //     ];
+  
+  //     // Tìm user khớp với input
+  //     const matchedUser = mockUsers.find(
+  //       (user) =>
+  //         user.email === userInfo.email && user.password === userInfo.password
+  //     );
+  
+  //     if (!matchedUser) {
+  //       toast.error("Invalid email or password");
+  //       return;
+  //     }
+  
+  //     // Xoá password trước khi lưu user
+  //     const { password, ...userWithoutPassword } = matchedUser;
+  
+  //     userWithoutPassword.expirationDate = setExpirationDate(7);
+  
+  //     // Token mock
+  //     const mockToken = "mocked-jwt-token-abc123";
+  
+  //     dispatch({ type: actions.SET_USER, user: userWithoutPassword });
+  //     localStorage.setItem("user", JSON.stringify(userWithoutPassword));
+  //     localStorage.setItem("token", mockToken);
+  //     toast.success("Login successful (mock)");
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("There was a problem logging in, try again");
+  //   }
+  // };
+  
+  
 
   const logout = async () => {
     const token = await localStorage.getItem('token')
@@ -104,6 +157,25 @@ const useAuth = () => {
     toast.success("Logout successful")
     dispatch({ type: actions.LOGOUT });
   };
+  // const logout = async () => {
+  //   try {
+  //     // Giả lập delay cho giống thật
+  //     await new Promise((resolve) => setTimeout(resolve, 300));
+  
+  //     // Xoá localStorage
+  //     localStorage.removeItem("user");
+  //     localStorage.removeItem("token");
+  
+  //     // Dispatch logout
+  //     dispatch({ type: actions.LOGOUT });
+  
+  //     toast.success("Logout successful (mock)");
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Logout failed");
+  //   }
+  // };
+  
 
   return { state, register, login, logout };
 };

@@ -4,6 +4,8 @@ import NavBar from "@/components/NavBar/NavBar";
 import ShopFooter from "@/components/Footer/ShopFooter";
 import ErrorView from "./views/ErrorView";
 import CartView from "./views/CartView";
+import AdminView from "./views/AdminView";
+import ProtectRoute from "@/components/NavBar/Links/ProtectRoute";
 import DeliveryView from "./views/DeliveryView";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect } from "react";
@@ -13,6 +15,7 @@ import Modal from "./components/Modals/Modal";
 import CancelOrder from "./components/Modals/CancelOrder";
 import "react-toastify/dist/ReactToastify.css";
 import RequestCookie from "./components/CookieBanner/CookieBanner";
+import ProductTable from "./components/Admin/ProductTable";
 
 function App() {
   let { store } = useGlobalContext();
@@ -31,6 +34,15 @@ function App() {
           <Route path="/" element={<HomeView />} />
           <Route path="/cart" element={<CartView />} />
           <Route path="/delivery" element={<DeliveryView />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectRoute>
+                <AdminView />
+              </ProtectRoute>
+            }
+          />
+          <Route path="/dashboard/product" element={<ProductTable/>} />
           <Route path="*" element={<ErrorView />} />
         </Routes>
         <footer>
