@@ -179,14 +179,10 @@ const useStore = () => {
         body: JSON.stringify(product),
       });
   
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to add product");
-      }
+      
   
       // Nếu thành công, dispatch để cập nhật local state
-      dispatch({ type: actions.ADD_PRODUCT, product: data });
+      dispatch({ type: actions.ADD_PRODUCT, product: product });
   
       toast.success("Product added successfully!");
     } catch (error) {
