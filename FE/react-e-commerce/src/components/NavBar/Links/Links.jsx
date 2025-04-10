@@ -6,7 +6,7 @@ const Links = () => {
 
   // Lấy user từ localStorage (hoặc từ Redux/context tuỳ bạn)
   const user = JSON.parse(localStorage.getItem("user"));
-  const isAdmin = user?.role === "true";
+  const role = user?.isAdmin;
 
   const scrollToProducts = () => {
     if (!isHomePage) return;
@@ -35,7 +35,7 @@ const Links = () => {
       <Link to="/delivery" onClick={removeExpandedClass}>
         Delivery
       </Link>
-      {isAdmin && (
+      {role && (
         <Link to="/dashboard" onClick={removeExpandedClass}>
           Admin
         </Link>

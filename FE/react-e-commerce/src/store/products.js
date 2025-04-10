@@ -171,7 +171,7 @@ const useStore = () => {
   };
   const addProduct = async (product) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -217,7 +217,39 @@ const useStore = () => {
         return [];
       });
   };
-
+  const getProductsByPage = async (page = 1, limit = 9) => {
+    try {
+      await fetch(
+        `${import.meta.env.VITE_API_URL}/products?page=${page}&limit=${limit}`
+      );
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch paginated products");
+      }
+  
+      const modifiedData = data.products.map((product) => ({
+        ...product,
+        addedToCart: false,
+      }));
+  
+      const cart = (await localforage.getItem("cartItems")) || [];
+  
+      dispatch({
+        type: actions.GET_PRODUCTS,
+        products: modifiedData,
+        backed_up_cart: cart,
+      });
+  
+      return data.totalPages; // để frontend có thể set số trang
+    } catch (error) {
+      console.error("Pagination error:", error);
+      toast.error("Failed to fetch products. Try again later.");
+      return 1; // fallback nếu lỗi
+    }
+  };
+  
   const addQuantity = (product) => {
     dispatch({ type: actions.ADD_QUANTITY, product });
   };
@@ -269,6 +301,7 @@ const useStore = () => {
     addProduct,
     addQuantity,
     reduceQuantity,
+    getProductsByPage,
     confirmOrder,
   };
 };

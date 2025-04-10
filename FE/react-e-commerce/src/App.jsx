@@ -34,15 +34,11 @@ function App() {
           <Route path="/" element={<HomeView />} />
           <Route path="/cart" element={<CartView />} />
           <Route path="/delivery" element={<DeliveryView />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectRoute>
-                <AdminView />
-              </ProtectRoute>
-            }
-          />
-          <Route path="/dashboard/product" element={<ProductTable/>} />
+          <Route path="/dashboard" element={<ProtectRoute><AdminView /></ProtectRoute>}>
+            <Route path="product" element={<ProtectRoute><ProductTable /></ProtectRoute>} />
+            {/* <Route path="orders" element={<OrdersPage />} />
+            <Route path="users" element={<UsersPage />} /> */}
+          </Route>
           <Route path="*" element={<ErrorView />} />
         </Routes>
         <footer>
