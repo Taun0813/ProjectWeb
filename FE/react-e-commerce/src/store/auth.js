@@ -100,14 +100,14 @@ const useAuth = () => {
   //         name: "John Doe",
   //         email: "user@gmail.com",
   //         password: "12345",
-  //         role: "false",
+  //         isAdmin: false,
   //       },
   //       {
   //         id: "2",
   //         name: "Admin User",
   //         email: "admin@gmail.com",
   //         password: "12345",
-  //         role: "true",
+  //         isAdmin: true,
   //       },
   //     ];
   
