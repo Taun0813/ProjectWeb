@@ -23,6 +23,18 @@ const actions = Object.freeze({
 });
 
 const reducer = (state, action) => {
+  // ADD PRODUCT
+  if (action.type === actions.ADD_PRODUCT) {
+  const updatedProduct = {
+    ...action.product,
+    addedToCart: false, // ensure default flag
+  };
+  return {
+    ...state,
+    products: [...state.products, updatedProduct],
+  };
+}
+
   // GET PRODUCTS
   if (action.type == actions.GET_PRODUCTS) {
     if (action.backed_up_cart == []) {
