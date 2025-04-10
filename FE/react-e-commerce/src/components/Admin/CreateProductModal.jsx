@@ -11,7 +11,6 @@ const CreateProductModal = ({ isOpen, onClose }) => {
     description: "",
     price: "",
     image: "",
-    rating: 5,
   });
 
   const handleChange = (e) => {
@@ -36,7 +35,7 @@ const CreateProductModal = ({ isOpen, onClose }) => {
 
     await store.addProduct(product);
     onClose(); // Đóng modal sau khi thêm
-    setFormData({ name: "", description: "", price: "", image: "", rating: 5 });
+    setFormData({ name: "", description: "", price: "", image: ""});
   };
 
   return (
@@ -49,11 +48,7 @@ const CreateProductModal = ({ isOpen, onClose }) => {
             <input name="description" value={formData.description} onChange={handleChange} placeholder="Description" className="w-full border p-2 rounded" />
             <input name="price" type="number" value={formData.price} onChange={handleChange} placeholder="Price" className="w-full border p-2 rounded" />
             <input name="image" value={formData.image} onChange={handleChange} placeholder="Image URL" className="w-full border p-2 rounded" />
-            <select name="rating" value={formData.rating} onChange={handleChange} className="w-full border p-2 rounded">
-              {[1, 2, 3, 4, 5].map((val) => (
-                <option key={val} value={val}>{val} Stars</option>
-              ))}
-            </select>
+
             <div className="flex justify-end gap-2">
               <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-300 rounded">Cancel</button>
               <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">Create</button>

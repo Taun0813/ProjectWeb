@@ -6,7 +6,7 @@ const Links = () => {
 
   // Lấy user từ localStorage (hoặc từ Redux/context tuỳ bạn)
   const user = JSON.parse(localStorage.getItem("user"));
-  const role = user?.isAdmin;
+  const role = user?.isAdmin === true;
 
   const scrollToProducts = () => {
     if (!isHomePage) return;
