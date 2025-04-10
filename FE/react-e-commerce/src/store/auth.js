@@ -28,7 +28,7 @@ const useAuth = () => {
 
   const register = async (userInfo) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/user/register`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const useAuth = () => {
 
   const login = async (userInfo) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_AUTH_URL}/user/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,19 +144,35 @@ const useAuth = () => {
 
   const logout = async () => {
     const token = await localStorage.getItem('token')
-    await fetch(`${import.meta.env.VITE_AUTH_URL}/user/logout`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      mode: "cors",
-      credentials: "include",
-    });
-    localStorage.removeItem("user");
-    toast.success("Logout successful")
-    dispatch({ type: actions.LOGOUT });
-  };
+    if(!token) {
+      toast.error("Token not found");
+      return;
+    }
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/user/logout`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        mode: "cors",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        toast.success("Logout successful")
+        dispatch({type: actions.LOGOUT});
+      } else {
+        const errMsg = await reponse.text();
+        toast.error(`Logout failed: ${errMsg}`)
+      }
+    } catch (error) {
+      toast.error("Network error during logout");
+      console.error(error);
+    }
+  }
   // const logout = async () => {
   //   try {
   //     // Giả lập delay cho giống thật

@@ -26,7 +26,7 @@ const useOrders = () => {
 
   const getOrders = async (user_id) => {
     const response = await fetch(
-      `${import.meta.env.VITE_ORDER_URL}/${user_id}/get-orders`,
+      `${import.meta.env.VITE_API_URL}/${user_id}/get-orders`,
       {
         method: "GET",
         headers: {
@@ -51,7 +51,7 @@ const useOrders = () => {
 
   const cancelOrder = async (order_id) => {
     const response = await fetch(
-      `${import.meta.env.VITE_ORDER_URL}/cancel-order`,
+      `${import.meta.env.VITE_API_URL}/cancel-order`,
       {
         method: "POST",
         headers: {

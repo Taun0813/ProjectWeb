@@ -171,7 +171,7 @@ const useStore = () => {
   };
   const addProduct = async (product) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_PRODUCT_URL}/products`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -197,7 +197,7 @@ const useStore = () => {
   const getProducts = () => {
     // fetch(`${import.meta.env.VITE_API_URL}/products`)
     // fetch(`http://localhost:8081/v1/api/products`)
-    fetch(`${import.meta.env.VITE_PRODUCT_URL}/products`)
+    fetch(`${import.meta.env.VITE_API_URL}/products`)
       .then(async (response) => {
         const data = await response.json();
         let modifiedData = data.map((product) => {
@@ -239,7 +239,7 @@ const useStore = () => {
       user_id: order.user_id,
     };
     const response = await fetch(
-      `${import.meta.env.VITE_ORDER_URL}/place-order`,
+      `${import.meta.env.VITE_API_URL}/place-order`,
       {
         method: "POST",
         headers: {
