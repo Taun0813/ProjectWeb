@@ -1,9 +1,12 @@
 package vn.tt.practice.productservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vn.tt.practice.productservice.dto.ProductDTO;
 import vn.tt.practice.productservice.mapper.ProductMapper;
+import vn.tt.practice.productservice.model.Product;
 import vn.tt.practice.productservice.repository.ProductRepo;
 
 import java.util.List;
@@ -16,9 +19,9 @@ public class ProductService {
     private final ProductRepo productRepo;
     private final ProductMapper productMapper;
 
-    public List<ProductDTO> getAllProducts() {
-        return productRepo.findAll().stream()
-                .map(productMapper::toDTO).collect(Collectors.toList());
+    public Page<ProductDTO> getAllProducts(Pageable pageable) {
+        Page<Product> products = productRepo.findAll(pageable);
+        return products.map(productMapper::toDTO);
     }
 
     public ProductDTO createProduct(ProductDTO productDTO) {

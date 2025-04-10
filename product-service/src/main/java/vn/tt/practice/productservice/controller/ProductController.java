@@ -1,6 +1,9 @@
 package vn.tt.practice.productservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +30,19 @@ public class ProductController {
         return ResponseEntity.ok(productRepo.findById(id).orElse(null));
     }
 
+
+
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<Page<ProductDTO>> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProductDTO> products = productService.getAllProducts(pageable);
+
+        return ResponseEntity.ok(products);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<String> createProduct(@RequestBody ProductDTO productDTO) {
 //        return ResponseEntity.ok(productRepo.save(Product.builder()
 //                                                        .name(productDTO.getName())
