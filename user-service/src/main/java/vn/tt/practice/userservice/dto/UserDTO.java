@@ -22,7 +22,7 @@ public class UserDTO {
     @Size(min = 6, message = "Password must be at least 6 char")
     private String password;
 
-    private boolean role;
+    private Boolean isAdmin;
 
     private int expirationDate;
 

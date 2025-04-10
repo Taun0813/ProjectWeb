@@ -7,29 +7,25 @@ import org.springframework.stereotype.Component;
 import vn.tt.practice.userservice.dto.UserDTO;
 
 import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JWTUtil {
+
     SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final long expiration = 86400000;
-
-//    private Key getSigningKey() {
-//        return Keys.hmacShaKeyFor(key.getBytes());
-//    }
 
     public String generateToken(UserDTO user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())
-                .claim("role", user.isRole())
+                .claim("role", user.getIsAdmin())
+                .claim("id", user.getId())
+                .claim("username", user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
-    }
-
-    public boolean validateToken(String token, UserDTO user) {
-        return user.getUsername().equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
     public String extractUsername(String token) {
@@ -50,4 +46,13 @@ public class JWTUtil {
                 .getExpiration();
         return expiration.before(new Date());
     }
+
+    public boolean validateToken(String token) {
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
+

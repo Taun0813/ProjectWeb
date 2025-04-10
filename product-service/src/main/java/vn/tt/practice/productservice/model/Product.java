@@ -20,7 +20,6 @@ public class Product {
     private String image;
     private boolean checkToCart;
     private Integer rating;
-
-
+    private Integer quantity;
 
 }

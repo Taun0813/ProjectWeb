@@ -47,24 +47,22 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO userDTO) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Registered Successfully");
         try {
-            return ResponseEntity.ok("Register successful! ID: " + userService.register(userDTO).getId());
+            userDTO.setExpirationDate(86400);
+            response.put("user", userService.register(userDTO));
+            return ResponseEntity.ok().body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody UserDTO userDTO) {
-
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         try {
-            String token = jwtUtil.generateToken(userDTO);
-            redisTemplate.opsForValue().set(token, "valid", Duration.ofHours(1));
-            System.out.println(token);
-            Map<String, Object> response = new HashMap<>();
-            response.put("user", userService.login(userDTO.getEmail(), userDTO.getPassword()));
-            response.put("token", token);
+            Map<String, Object> response = userService.login(userDTO);
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -76,16 +74,21 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<String> logoutUser(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
         try {
-            String token = authHeader.replace("Bearer ", "");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
+            }
 
-            if (!Boolean.TRUE.equals(redisTemplate.hasKey(token))) {
+            String token = authHeader.replace("Bearer ", "").trim();
+
+            Boolean exists = redisTemplate.hasKey(token);
+            System.out.println("Token received: " + token);
+            System.out.println("Token exists in Redis: " + exists);
+
+            if (!Boolean.TRUE.equals(exists)) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token invalid or already logged out");
             }
-            // Optional: lấy user để ghi log
-            String email = jwtUtil.extractUsername(token);
-            System.out.println("Logging out user: " + email);
 
             redisTemplate.delete(token);
             return ResponseEntity.ok("Logout successful");

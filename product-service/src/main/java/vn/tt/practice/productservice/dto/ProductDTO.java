@@ -18,4 +18,5 @@ public class ProductDTO {
     private String image;
     private boolean checkToCart;
     private Integer rating;
+    private Integer quantity;
 }

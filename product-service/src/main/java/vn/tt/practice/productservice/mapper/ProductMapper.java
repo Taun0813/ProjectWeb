@@ -15,6 +15,7 @@ public class ProductMapper {
                 .image(productDTO.getImage())
                 .checkToCart(productDTO.isCheckToCart())
                 .rating(productDTO.getRating())
+                .quantity(productDTO.getQuantity())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class ProductMapper {
                 .image(product.getImage())
                 .rating(product.getRating())
                 .checkToCart(product.isCheckToCart())
+                .quantity(product.getQuantity())
                 .build();
     }
 }
