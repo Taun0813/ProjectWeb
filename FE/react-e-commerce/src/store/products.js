@@ -171,29 +171,24 @@ const useStore = () => {
   };
   const addProduct = async (product) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(product),
       });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to add product");
-      }
-  
+
+
       // Nếu thành công, dispatch để cập nhật local state
-      dispatch({ type: actions.ADD_PRODUCT, product: data });
-  
+      dispatch({ type: actions.ADD_PRODUCT, product: product});
+
       toast.success("Product added successfully!");
     } catch (error) {
       console.error("Add Product Error:", error);
       toast.error("Failed to add product");
     }
-  };  
+  };
   const getProducts = () => {
     // fetch(`${import.meta.env.VITE_API_URL}/products`)
     // fetch(`http://localhost:8081/v1/api/products`)
@@ -239,7 +234,7 @@ const useStore = () => {
       user_id: order.user_id,
     };
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/place-order`,
+      `${import.meta.env.VITE_API_URL}/order/place-order`,
       {
         method: "POST",
         headers: {

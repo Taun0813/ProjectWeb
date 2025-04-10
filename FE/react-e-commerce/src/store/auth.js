@@ -149,7 +149,7 @@ const useAuth = () => {
       return;
     }
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/user/logout`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/logout`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +165,7 @@ const useAuth = () => {
         toast.success("Logout successful")
         dispatch({type: actions.LOGOUT});
       } else {
-        const errMsg = await reponse.text();
+        const errMsg = await response.text();
         toast.error(`Logout failed: ${errMsg}`)
       }
     } catch (error) {
