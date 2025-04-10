@@ -12,10 +12,14 @@ const Products = () => {
   const productsPerPage = 9;
 
   useEffect(() => {
-    store.getProductsByPage(currentPage + 1, productsPerPage).then((total) => {
-      setTotalPages(total);
+    store.getProductsByPage(currentPage + 1, productsPerPage).then((res) => {
+      if (res?.totalPages) {
+        setTotalPages(res.totalPages);
+      }
     });
   }, [currentPage]);
+  
+  
   
 
   const handlePageClick = (event) => {

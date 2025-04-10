@@ -213,38 +213,32 @@ const useStore = () => {
         return [];
       });
   };
-  const getProductsByPage = async (page = 1, limit = 9) => {
+  const getProductsByPage = async (page = 1, size = 9) => {
     try {
-      await fetch(
-        `${import.meta.env.VITE_API_URL}/products?page=${page}&limit=${limit}`
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/products?page=${page}&size=${size}`
       );
-  
       const data = await response.json();
   
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch paginated products");
-      }
-  
-      const modifiedData = data.products.map((product) => ({
+      const productsWithFlag = data.content.map((product) => ({
         ...product,
         addedToCart: false,
       }));
   
-      const cart = (await localforage.getItem("cartItems")) || [];
-  
       dispatch({
         type: actions.GET_PRODUCTS,
-        products: modifiedData,
-        backed_up_cart: cart,
+        products: productsWithFlag,
+        backed_up_cart: [],
       });
   
-      return data.totalPages; // để frontend có thể set số trang
+      return data; 
     } catch (error) {
-      console.error("Pagination error:", error);
-      toast.error("Failed to fetch products. Try again later.");
-      return 1; // fallback nếu lỗi
+      toast.error("Error fetching paginated products");
+      return null;
     }
   };
+  
+  
   
   const addQuantity = (product) => {
     dispatch({ type: actions.ADD_QUANTITY, product });
