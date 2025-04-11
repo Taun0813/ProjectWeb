@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-
+import { toast } from "react-toastify";
 const initialState = {
   orders: [],
   order_to_be_canceled: null,
@@ -25,25 +25,29 @@ const useOrders = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const getOrders = async (user_id) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/order/${user_id}/get-orders`,
-      {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/order/${user_id}/get-orders`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
         mode: "cors",
         credentials: "include",
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
       }
-    );
-
-    const data = await response.json();
-    if (data.error) {
-      return data.error;
+  
+      const data = await response.json();
+      dispatch({ type: actions.GET_ORDERS, orders: data });
+      return data;
+    } catch (err) {
+      console.error("Fetch order error:", err.message);
+      return [];
     }
-    dispatch({ type: actions.GET_ORDERS, orders: data});
-    return data.orders;
   };
+  
 
   const setOrderToBeCanceled = (order_id) => {
     dispatch({ type: actions.GET_ORDER_TO_BE_CANCELED, order_id:order_id });
