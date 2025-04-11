@@ -16,6 +16,8 @@ import CancelOrder from "./components/Modals/CancelOrder";
 import "react-toastify/dist/ReactToastify.css";
 import RequestCookie from "./components/CookieBanner/CookieBanner";
 import ProductTable from "./components/Admin/ProductTable";
+import OrdersTable from "./components/Admin/OrdersTable";
+import UsersTable from "./components/Admin/UsersTable";
 
 function App() {
   let { store } = useGlobalContext();
@@ -36,8 +38,8 @@ function App() {
           <Route path="/delivery" element={<DeliveryView />} />
           <Route path="/dashboard" element={<ProtectRoute><AdminView /></ProtectRoute>}>
             <Route path="product" element={<ProtectRoute><ProductTable /></ProtectRoute>} />
-            {/* <Route path="orders" element={<OrdersPage />} />
-            <Route path="users" element={<UsersPage />} /> */}
+            <Route path="orders" element={<OrdersTable />} />
+            <Route path="users" element={<UsersTable />} />
           </Route>
           <Route path="*" element={<ErrorView />} />
         </Routes>
