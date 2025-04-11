@@ -37,13 +37,15 @@ const Products = () => {
 
 
   return (
-    loading ? (
+      <div className="sub-container" id="products">
+       <h2>Headphones For You</h2>
+    { loading ? (
       <div className="contains-product">
         {Array.from({ length: productsPerPage }).map((_, i) => (
           <Skeleton key={i} height={250} width={"100%"} />
         ))}
       </div>
-    ) : (
+      ) : (
       <>
         <div className="contains-product">
           {store.state.products.map((product) => (
@@ -73,7 +75,8 @@ const Products = () => {
           />
         </div>
       </>
-    )
+      )}
+    </div>
   );
 };
 
