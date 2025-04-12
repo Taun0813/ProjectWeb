@@ -24,7 +24,7 @@ function App() {
   let { modal } = useGlobalContext();
   useEffect(() => {
     if (store.state.products.length > 0) return;
-    store.getProducts();
+    store.getProductsByPage();
   }, []);
   return (
     <div>

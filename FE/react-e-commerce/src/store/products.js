@@ -286,7 +286,7 @@ const useStore = () => {
     addToCart,
     removeFromCart,
     clearCart,
-    getProducts,
+    // getProducts,
     addProduct,
     addQuantity,
     reduceQuantity,
