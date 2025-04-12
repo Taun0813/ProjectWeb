@@ -36,8 +36,14 @@ public class ProductController {
     public ResponseEntity<Page<ProductDTO>> getProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size) {
+
+        long start = System.currentTimeMillis();
+
         Pageable pageable = PageRequest.of(page, size);
         Page<ProductDTO> products = productService.getAllProducts(pageable);
+
+        long end = System.currentTimeMillis();
+        System.out.println("⏱️ Total response time: " + (end - start) + " ms");
 
         return ResponseEntity.ok(products);
     }

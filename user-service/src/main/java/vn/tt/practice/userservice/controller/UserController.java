@@ -32,8 +32,14 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepo userRepo;
-    private final JWTUtil jwtUtil;
     private final StringRedisTemplate redisTemplate;
+
+    @GetMapping("/{id}/email")
+    public ResponseEntity<String> getEmail(@PathVariable String id) {
+        Optional<User> user = userRepo.findById(id);
+        return user.map(u -> ResponseEntity.ok(u.getEmail()))
+                .orElse(ResponseEntity.notFound().build());
+    }
 
 
     @GetMapping("/{id}")

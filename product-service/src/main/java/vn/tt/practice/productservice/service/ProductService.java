@@ -1,6 +1,8 @@
 package vn.tt.practice.productservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,13 @@ public class ProductService {
     private final ProductRepo productRepo;
     private final ProductMapper productMapper;
 
+    @Cacheable(value = "products", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<ProductDTO> getAllProducts(Pageable pageable) {
         Page<Product> products = productRepo.findAll(pageable);
         return products.map(productMapper::toDTO);
     }
 
+    @CacheEvict(value = "products", allEntries = true)
     public ProductDTO createProduct(ProductDTO productDTO) {
         return productMapper.toDTO(productRepo.save(productMapper.toEntity(productDTO)));
     }

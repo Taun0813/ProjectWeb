@@ -20,8 +20,8 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderRepo orderRepo;
-    private final OrderMapper orderMapper;
+
+
 
     @PostMapping("/place-order")
     public ResponseEntity<Payload> placeOrder(@RequestBody Payload request) {

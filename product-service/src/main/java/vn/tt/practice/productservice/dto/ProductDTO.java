@@ -5,9 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import java.io.Serializable;
+
 @Data
 @Builder
-public class ProductDTO {
+public class ProductDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String id;
 
     @NotBlank(message = "Name cannot be blank")
