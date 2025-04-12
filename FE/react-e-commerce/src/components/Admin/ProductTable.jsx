@@ -1,10 +1,31 @@
 import { useState } from "react";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
+import Pagination from "@/components/Pagination/Pagination";
 import CreateProductModal from "./CreateProductModal";
 const ProductTable = () => {
   const { store } = useGlobalContext();
   const [openModal, setOpenModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0); // 0-based index
+    const [totalPages, setTotalPages] = useState(1);
+    const productsPerPage = 9;
   
+    useEffect(() => {
+      const fetchData = async () => {
+        setLoading(true);
+        const res = await store.getProductsByPage(currentPage + 1, productsPerPage);
+        if (res?.totalPages) {
+          setTotalPages(res.totalPages);
+        }
+        setLoading(false);
+      };
+  
+      fetchData();
+    }, [currentPage]);
+  
+    const handlePageClick = (event) => {
+      setCurrentPage(event.selected);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
   return (
     <div className="p-8">
@@ -42,6 +63,11 @@ const ProductTable = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageClick}
+      />
       <CreateProductModal isOpen={openModal} onClose={() => setOpenModal(false)} />
     </div>
   );

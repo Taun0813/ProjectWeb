@@ -38,7 +38,7 @@ function App() {
           <Route path="/delivery" element={<DeliveryView />} />
           <Route path="/dashboard" element={<ProtectRoute><AdminView /></ProtectRoute>}>
             <Route path="product" element={<ProtectRoute><ProductTable /></ProtectRoute>} />
-            <Route path="orders" element={<OrdersTable />} />
+            <Route path="orders" element={<ProtectRoute><OrdersTable /></ProtectRoute>} />
             <Route path="users" element={<UsersTable />} />
           </Route>
           <Route path="*" element={<ErrorView />} />
