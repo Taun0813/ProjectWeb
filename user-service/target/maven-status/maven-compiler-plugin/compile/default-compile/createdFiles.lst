@@ -10,4 +10,3 @@ vn\tt\practice\userservice\config\SecurityConfig.class
 vn\tt\practice\userservice\dto\UserDTO$UserDTOBuilder.class
 vn\tt\practice\userservice\repository\UserRepo.class
 vn\tt\practice\userservice\service\UserService.class
-vn\tt\practice\userservice\config\MongoDBConfig.class

@@ -1,5 +1,6 @@
 package vn.tt.practice.apigateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -22,20 +24,8 @@ import java.util.List;
 public class SecurityConfig {
 
 
-
-//    @Bean
-//    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-//        http
-//                .authorizeExchange(exchange -> exchange
-//                        .pathMatchers(HttpMethod.OPTIONS).permitAll()         // 👈 Thêm dòng này để fix CORS!
-//                        .pathMatchers("/eureka/**").permitAll()
-//                        .anyExchange().authenticated()
-//                )
-//                .httpBasic(Customizer.withDefaults())
-//                .csrf(csrf -> csrf.disable());
-//
-//        return http.build();
-//    }
+    @Value("${frontend.allowed-origins:http://localhost:5173}")
+    private String allowedOrigins;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
@@ -49,10 +39,12 @@ public class SecurityConfig {
         return serverHttpSecurity.build();
     }
 
+
+
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
@@ -62,6 +54,7 @@ public class SecurityConfig {
 
         return new CorsWebFilter(source);
     }
+
 
     @Bean
     public KeyResolver ipKeyResolver() {

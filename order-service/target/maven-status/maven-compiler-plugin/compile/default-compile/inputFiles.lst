@@ -1,0 +1,10 @@
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\config\KafkaProducerConfig.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\config\SecurityConfig.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\controller\OrderController.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\dto\Payload.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\mapper\OrderMapper.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\model\Order.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\OrderServiceApplication.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\producer\OrderEventProducer.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\repository\OrderRepo.java
+F:\CV_xin_viec\ProjectWeb\BE\order-service\src\main\java\vn\tt\practice\orderservice\service\OrderService.java
