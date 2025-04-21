@@ -12,57 +12,69 @@ const Product = ({ product }) => {
   }
   const isInCart = product?.addedToCart;
   return (
-    <div className="product-container">
-      <div className="image">
-        <img
-          src={product?.image || headphones_pink}
-          alt="Product Image"
-          width={"100%"}
-        />
-      </div>
-      <div className="product-details">
-        <div className="name-add-to-cart"></div>
-        <div className="price">
-          <div className="name-price-product">
-            <h4>{product?.name}</h4>
-            <h5>
-              $<span className="actual-product-price">{product?.price}.00</span>
-            </h5>
-          </div>
-          <h5>{product?.description}</h5>
-          <div className="star-rating">
-            <div className="star">{stars}</div>
-            <span>({parseInt(Math.random() * 100)} Reviews)</span>
-          </div>
+      <div className="w-72 bg-white rounded-xl shadow-md p-4 relative hover:shadow-lg transition">
+        {/* Product Image */}
+        <div className="flex justify-center items-center mb-4">
+          <img
+              src={product?.image || headphones_pink}
+              alt="Product"
+              className="w-32 h-32 object-contain"
+          />
         </div>
-        <div>
-          {isInCart == false ? (
-            <button
-              className="add-to-cart"
-              onClick={() => {
+
+        {/* Name */}
+        <h3 className="text-sm font-semibold text-gray-800 mb-1">{product?.name}</h3>
+
+        {/* Rating */}
+        <div className="flex items-center text-yellow-500 text-sm space-x-1 mb-1">
+          <div>{stars}</div>
+          <span className="text-gray-500 ml-1">({parseInt(Math.random() * 400)})</span>
+        </div>
+
+        {/* Price */}
+        <div className="flex items-center space-x-2 mb-4">
+    <span className="text-base font-semibold text-gray-800">
+      ₹{product?.price?.toLocaleString()}
+    </span>
+          <span className="text-sm text-gray-400 line-through">
+      ₹{(product?.price + 1285)?.toLocaleString()}
+    </span>
+        </div>
+
+        {/* Button */}
+        <button
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition text-sm"
+            onClick={() => {
+              if (!isInCart) {
                 if (store.state.cartQuantity > 10) {
                   toast.warning("You can only add 10 items to cart");
                   return;
                 }
                 store.addToCart(product?.id);
-              }}
-            >
-              Add to Cart
-            </button>
-          ) : (
-            <button
-              className="add-to-cart"
-              onClick={() => {
+              } else {
                 store.removeFromCart(product?.id);
-              }}
-            >
-              Remove from cart
-            </button>
-          )}
-        </div>
+              }
+            }}
+        >
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-5"
+          >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 3h1.386a.75.75 0 01.732.585L5.79 9.75m1.466 6.75h10.469a.75.75 0 00.732-.585l1.597-7.424a.75.75 0 00-.732-.915H6.318m0 0L5.25 4.5m1.068 5.25h13.159"
+            />
+          </svg>
+          {isInCart ? 'Remove from cart' : 'Add to cart'}
+        </button>
       </div>
-      <div className="heart"></div>
-    </div>
+
+
   );
 };
 export default Product;

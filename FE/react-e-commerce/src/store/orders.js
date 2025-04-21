@@ -1,9 +1,11 @@
 import { useReducer } from "react";
 import { toast } from "react-toastify";
+import useAuth from "@/store/auth.js";
 const initialState = {
   orders: [],
   order_to_be_canceled: null,
 };
+
 
 const actions = Object.freeze({
   GET_ORDERS: "GET_ORDERS",
@@ -23,10 +25,11 @@ const reducer = (state, action) => {
 
 const useOrders = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const auth = useAuth()
   const getOrders = async (user_id) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/order/${user_id}/get-orders`, {
+      const userId  = auth.state.user.id;
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/order/${userId}/get-orders`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

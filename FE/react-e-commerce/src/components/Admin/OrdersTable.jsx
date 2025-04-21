@@ -29,7 +29,7 @@ const OrderTable = ({ userId }) => {
               <td className="p-2 border">{index + 1}</td>
               <td className="p-2 border">{order.id}</td>
               <td className="p-2 border">
-                {order.items?.length} sản phẩm
+                {order.items?.length} products
               </td>
               <td className="p-2 border">
                 {order.delivery_type} (${order.delivery_type_cost})

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useGlobalContext } from "@/components/GlobalContext/GlobalContext";
 import Pagination from "@/components/Pagination/Pagination";
 import CreateProductModal from "./CreateProductModal";
@@ -7,6 +7,8 @@ const ProductTable = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0); // 0-based index
     const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
+
     const productsPerPage = 9;
   
     useEffect(() => {

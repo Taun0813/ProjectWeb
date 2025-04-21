@@ -46,13 +46,13 @@ const useAuth = () => {
 
         toast.error(user.error);
       }
-      if (user.user) {
-        dispatch({ type: actions.SET_USER, user: user.user });
-        user.user.expirationDate = setExpirationDate(7);
-        localStorage.setItem("user", JSON.stringify(user.user));
+      // if (user.user) {
+      //   dispatch({ type: actions.SET_USER, user: user.user });
+      //   user.user.expirationDate = setExpirationDate(7);
+      //   localStorage.setItem("user", JSON.stringify(user.user));
         toast.success("Registration successful");
-        // login user
-      }
+      //   // login user
+      // }
     } catch (error) {
       console.log(error)
       toast.error("There was a problem registering, try again");

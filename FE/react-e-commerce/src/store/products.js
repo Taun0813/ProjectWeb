@@ -276,7 +276,7 @@ const useStore = () => {
       toast.error("You must be logged in to place an order");
       return { showRegisterLogin: true };
     }
-    toast.success("Order thanh cong vui long kiem tra email");
+    toast.success("Order successful. Pls check your email");
     clearCart();
     return true;
   };
