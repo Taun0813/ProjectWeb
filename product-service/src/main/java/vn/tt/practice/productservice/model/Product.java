@@ -21,5 +21,6 @@ public class Product {
     private boolean checkToCart;
     private Integer rating;
     private Integer quantity;
+    private String productCode;
 
 }

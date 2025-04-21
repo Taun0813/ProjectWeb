@@ -55,7 +55,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Registered Successfully");
+//        response.put("message", "Registered Successfully");
         try {
             userDTO.setExpirationDate(86400);
             response.put("user", userService.register(userDTO));

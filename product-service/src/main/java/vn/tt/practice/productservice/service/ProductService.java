@@ -12,6 +12,7 @@ import vn.tt.practice.productservice.model.Product;
 import vn.tt.practice.productservice.repository.ProductRepo;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +30,20 @@ public class ProductService {
 
     @CacheEvict(value = "products", allEntries = true)
     public ProductDTO createProduct(ProductDTO productDTO) {
-        return productMapper.toDTO(productRepo.save(productMapper.toEntity(productDTO)));
+        Optional<Product> checkProduct = productRepo.findByProductCode(productDTO.getProductCode());
+        Product saveProduct;
+
+        if (checkProduct.isPresent())
+        {
+            Product product = checkProduct.get();
+            product.setQuantity(product.getQuantity() + productDTO.getQuantity());
+            saveProduct = productRepo.save(product);
+        }else {
+            saveProduct = productRepo.save(productMapper.toEntity(productDTO));
+        }
+        return productMapper.toDTO(saveProduct);
     }
+
 
     public ProductDTO addToCart(String id) {
         if (!productRepo.existsById(id)) {

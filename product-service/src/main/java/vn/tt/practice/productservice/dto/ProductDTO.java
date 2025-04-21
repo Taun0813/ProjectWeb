@@ -24,4 +24,5 @@ public class ProductDTO implements Serializable {
     private boolean checkToCart;
     private Integer rating;
     private Integer quantity;
+    private String productCode;
 }

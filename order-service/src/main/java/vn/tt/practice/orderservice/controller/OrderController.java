@@ -25,6 +25,10 @@ public class OrderController {
 
     @PostMapping("/place-order")
     public ResponseEntity<Payload> placeOrder(@RequestBody Payload request) {
+        if (request.getUser_id() == null )
+        {
+            throw new RuntimeException("Pls Login first");
+        }
         return ResponseEntity.ok().body(orderService.placeOrder(request));
     }
 

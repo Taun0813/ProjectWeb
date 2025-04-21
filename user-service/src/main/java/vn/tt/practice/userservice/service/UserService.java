@@ -30,14 +30,32 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserDTO register(UserDTO userDTO) {
+    public Map<String, Object> register(UserDTO userDTO) {
         if (userRepo.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
         }
+
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setExpirationDate(86400);
         userDTO.setIsAdmin(false);
-        return userMapper.toDTO(userRepo.save(userMapper.toEntity(userDTO)));
+
+        User user = userRepo.save(userMapper.toEntity(userDTO));
+        UserDTO savedUserDTO = userMapper.toDTO(user);
+        String token = jwtUtil.generateToken(savedUserDTO);
+        redisTemplate.opsForValue().set(token, "valid", Duration.ofMillis(86400000));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Registered Successfully");
+        response.put("token", token);
+        response.put("user", Map.of(
+                "id", user.getId(),
+                "email", user.getEmail(),
+                "username", user.getUsername(),
+                "isAdmin", user.getIsAdmin()
+        ));
+
+//        return userMapper.toDTO(userRepo.save(userMapper.toEntity(userDTO)));
+        return response;
 
     }
 

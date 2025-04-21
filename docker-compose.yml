@@ -219,6 +219,8 @@ services:
     environment:
       - FRONTEND_ALLOWED_ORIGINS=http://localhost:5173,http://frontend:5173
       - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - FRONTEND_ALLOWED_ORIGINS=http://localhost:5173,http://frontend:5173
+
     networks:
       - app-network
 

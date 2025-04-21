@@ -49,13 +49,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> createProduct(@RequestBody ProductDTO productDTO) {
-//        return ResponseEntity.ok(productRepo.save(Product.builder()
-//                                                        .name(productDTO.getName())
-//                                                        .product_image(productDTO.getProduct_image())
-//                                                        .description(productDTO.getDescription())
-//                                                        .price(productDTO.getPrice())
-//                                                        .build()));
+    public ResponseEntity<String> addProducts(@RequestBody ProductDTO productDTO) {
         productService.createProduct(productDTO);
         return ResponseEntity.ok().body("Add Product successfull");
     }
