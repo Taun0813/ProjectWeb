@@ -17,6 +17,10 @@
   position: relative;
   box-sizing: border-box;
 }
+.payment-method {
+  margin-top: 1rem;
+}
+
 .select-dropdown {
   width: 100%;
   position: relative;

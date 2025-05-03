@@ -212,7 +212,7 @@ const useStore = () => {
         return [];
       });
   };
-  const getProductsByPage = async (page = 1, size = 9) => {
+  const getProductsByPage = async (page = 0, size = 9) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/products?page=${page}&size=${size}`

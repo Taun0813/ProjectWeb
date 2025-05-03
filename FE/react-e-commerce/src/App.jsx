@@ -18,6 +18,8 @@ import RequestCookie from "./components/CookieBanner/CookieBanner";
 import ProductTable from "./components/Admin/ProductTable";
 import OrdersTable from "./components/Admin/OrdersTable";
 import UsersTable from "./components/Admin/UsersTable";
+import PaymentResult from "@/components/Payment/PaymentResult.jsx";
+
 
 function App() {
   let { store } = useGlobalContext();
@@ -39,6 +41,7 @@ function App() {
           <Route path="/dashboard" element={<ProtectRoute><AdminView /></ProtectRoute>}>
             <Route path="product" element={<ProtectRoute><ProductTable /></ProtectRoute>} />
             <Route path="orders" element={<ProtectRoute><OrdersTable /></ProtectRoute>} />
+              {/*<Route path="/payment-result" element={<PaymentResult />} />*/}
             <Route path="users" element={<UsersTable />} />
           </Route>
           <Route path="*" element={<ErrorView />} />

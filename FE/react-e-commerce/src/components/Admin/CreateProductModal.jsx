@@ -53,7 +53,7 @@ const CreateProductModal = ({ isOpen, onClose }) => {
                    className="w-full border p-2 rounded"/>
             <input name="image" value={formData.image} onChange={handleChange} placeholder="Image URL"
                    className="w-full border p-2 rounded"/>
-            <input name="productCode" value={formData.image} onChange={handleChange} placeholder="Product Code"
+            <input name="productCode" value={formData.productCode} onChange={handleChange} placeholder="Product Code"
                    className="w-full border p-2 rounded"/>
 
             <div className="flex justify-end gap-2">
