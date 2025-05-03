@@ -3,6 +3,7 @@ package vn.tt.practice.orderservice.mapper;
 import org.springframework.stereotype.Component;
 import vn.tt.practice.orderservice.dto.Payload;
 import vn.tt.practice.orderservice.model.Order;
+import vn.tt.practice.orderservice.model.PaymentMethod;
 
 @Component
 public class OrderMapper {
@@ -19,6 +20,11 @@ public class OrderMapper {
                 .totalItemCount(orderDTO.getTotalItemCount())
                 .user_id(orderDTO.getUser_id())
                 .status(orderDTO.getStatus())
+                .paymentMethod(
+                        orderDTO.getPaymentMethod() != null
+                                ? PaymentMethod.valueOf(orderDTO.getPaymentMethod().toUpperCase())
+                                : null
+                ) // Enum conversion
                 .build();
 
     }
@@ -29,14 +35,19 @@ public class OrderMapper {
                 .id(order.getId())
                 .items(order.getItems())
                 .contact_number(order.getContact_number())
-                .cost_after_delivery_rate(order.getCost_after_delivery_rate())
-                .cost_before_delivery_rate(order.getCost_before_delivery_rate())
+//                .cost_after_delivery_rate(order.getCost_after_delivery_rate())
+//                .cost_before_delivery_rate(order.getCost_before_delivery_rate())
                 .delivery_type(order.getDelivery_type())
                 .delivery_type_cost(order.getDelivery_type_cost())
                 .promo_code(order.getPromo_code())
                 .totalItemCount(order.getTotalItemCount())
                 .user_id(order.getUser_id())
                 .status(order.getStatus())
+                .paymentMethod(
+                        order.getPaymentMethod() != null
+                                ? order.getPaymentMethod().name()
+                                : null
+                ) // Enum conversion
                 .build();
 
     }

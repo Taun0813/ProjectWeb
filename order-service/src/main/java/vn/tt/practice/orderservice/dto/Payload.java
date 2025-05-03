@@ -1,8 +1,10 @@
 package vn.tt.practice.orderservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import vn.tt.practice.orderservice.model.Order;
 import vn.tt.practice.productservice.dto.ProductDTO;
 
 import java.util.List;
@@ -21,6 +23,13 @@ public class Payload {
     private String promo_code;
     private String contact_number;
     private String user_id;
+
+    @JsonProperty("payment_method")
+    private String paymentMethod;
+
     private String status;
+
+
+
 
 }

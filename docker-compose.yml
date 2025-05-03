@@ -184,6 +184,7 @@ services:
       - kafka-2
       - kafka-3
       - kafka-ui
+      - product-service
     environment:
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379

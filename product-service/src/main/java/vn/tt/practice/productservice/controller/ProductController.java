@@ -15,7 +15,6 @@ import vn.tt.practice.productservice.service.ProductService;
 
 import java.util.List;
 
-@Controller
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/api/products")
@@ -37,16 +36,33 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size) {
 
-        long start = System.currentTimeMillis();
+//        long start = System.currentTimeMillis();
 
         Pageable pageable = PageRequest.of(page, size);
         Page<ProductDTO> products = productService.getAllProducts(pageable);
 
-        long end = System.currentTimeMillis();
-        System.out.println("⏱️ Total response time: " + (end - start) + " ms");
+//        long end = System.currentTimeMillis();
+//        System.out.println("⏱️ Total response time: " + (end - start) + " ms");
 
         return ResponseEntity.ok(products);
     }
+
+    @PutMapping("/{id}/decrease-quantity")
+    public ResponseEntity<?> decreaseQuantity(@PathVariable String id, @RequestParam int amount) {
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (product.getQuantity() < amount) {
+            return ResponseEntity.badRequest().body("Not enough quantity");
+        }
+
+        product.setQuantity(product.getQuantity() - amount);
+        productRepo.save(product);
+
+        return ResponseEntity.ok("Quantity updated");
+    }
+
+
 
     @PostMapping("")
     public ResponseEntity<String> addProducts(@RequestBody ProductDTO productDTO) {
