@@ -3,7 +3,7 @@ name: CI/CD for Changed Services
 on:
   push:
     branches:
-      - 'BE'
+      - BE
     paths:
       - 'BE/**'
 
