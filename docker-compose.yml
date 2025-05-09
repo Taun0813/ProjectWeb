@@ -208,6 +208,17 @@ services:
       - kafka-ui
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka-1:9092,kafka-2:9094,kafka-3:9096
+
+#Payment-service
+  payment-service:
+    image: payment-service
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - "8085:8085"
+    networks:
+      - app-network
+
 #Api-gateway
   api-gateway:
     image: api-gateway

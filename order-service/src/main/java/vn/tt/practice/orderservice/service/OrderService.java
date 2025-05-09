@@ -1,7 +1,6 @@
 package vn.tt.practice.orderservice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,11 +11,9 @@ import vn.tt.practice.orderservice.config.ProductClient;
 import vn.tt.practice.orderservice.dto.Payload;
 import vn.tt.practice.orderservice.mapper.OrderMapper;
 import vn.tt.practice.orderservice.model.Order;
-import vn.tt.practice.orderservice.model.PaymentMethod;
 import vn.tt.practice.orderservice.producer.OrderEventProducer;
 import vn.tt.practice.orderservice.repository.OrderRepo;
 import vn.tt.practice.productservice.dto.ProductDTO;
-import vn.tt.practice.productservice.model.Product;
 
 import java.util.List;
 import java.util.stream.Collectors;

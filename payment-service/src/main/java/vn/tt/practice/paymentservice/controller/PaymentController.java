@@ -1,14 +1,17 @@
 package vn.tt.practice.paymentservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.bson.json.JsonObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vn.tt.practice.paymentservice.config.PaymentConfig;
 import vn.tt.practice.paymentservice.dto.Request;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -20,12 +23,16 @@ import java.util.*;
 public class PaymentController {
 
     @GetMapping("/create-payment")
-    public ResponseEntity<?> createPayment(HttpServletRequest req) throws UnsupportedEncodingException {
+    public ResponseEntity<?> createPayment(
+            @RequestParam long amount,
+            @RequestParam(required = false) String bankCode,
+            @RequestParam(required = false, defaultValue = "vn") String language,
+            HttpServletRequest req) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-        long amount = Integer.parseInt(req.getParameter("amount"))*100;
-        String bankCode = req.getParameter("bankCode");
+//        long amount = Integer.parseInt(req.getParameter("amount"))*100;
+//        String bankCode = req.getParameter("bankCode");
 
         String vnp_TxnRef = PaymentConfig.getRandomNumber(8);
         String vnp_IpAddr = PaymentConfig.getIpAddress(req);
@@ -101,9 +108,37 @@ public class PaymentController {
     }
 
     @GetMapping("/payment-return")
-    public ResponseEntity<String> paymentReturn() {
-        return ResponseEntity.ok().body("Payment returned");
+    public void paymentReturn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, String[]> fields = request.getParameterMap();
+        Map<String, String> vnpParams = new HashMap<>();
+        for (Map.Entry<String, String[]> entry : fields.entrySet()) {
+            vnpParams.put(entry.getKey(), entry.getValue()[0]);
+        }
+
+        String vnp_SecureHash = vnpParams.remove("vnp_SecureHash");
+        String vnp_SecureHashType = vnpParams.remove("vnp_SecureHashType"); // optional
+
+        // Tạo hash từ các param (trừ vnp_SecureHash) để đối chiếu
+        String calculatedHash = PaymentConfig.hashAllFields(vnpParams);
+
+        if (vnp_SecureHash != null && vnp_SecureHash.equals(calculatedHash)) {
+            String responseCode = vnpParams.get("vnp_ResponseCode");
+
+            if ("00".equals(responseCode)) {
+                // ✅ Thanh toán thành công
+                // TODO: cập nhật trạng thái đơn hàng theo vnp_TxnRef nếu cần
+
+                response.sendRedirect("http://localhost:5173/payment/success");
+            } else {
+                // ❌ Thanh toán thất bại
+                response.sendRedirect("http://localhost:5173/payment/fail");
+            }
+        } else {
+            // ❌ Sai hash, không xác minh được danh tính VNPay
+            response.sendRedirect("http://localhost:5173/payment/fail?error=invalid-signature");
+        }
     }
+
 }
 
 

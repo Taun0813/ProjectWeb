@@ -8,7 +8,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import vn.tt.practice.notificationservice.config.UserClient;
 import vn.tt.practice.notificationservice.service.EmailService;
-import vn.tt.practice.userservice.repository.UserRepo;
 
 @RequiredArgsConstructor
 @Service
