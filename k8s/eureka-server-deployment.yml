@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eureka-server-deployment
+  name: eureka-server
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         app: eureka-server
     spec:
       containers:
-        - name: eureka-server-container
+        - name: eureka-server
           image: thaituan130803/eureka-server:latest
           ports:
             - containerPort: 8761

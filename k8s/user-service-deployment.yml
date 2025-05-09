@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-deployment
+  name: user-service
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         app: user-service
     spec:
       containers:
-        - name: user-container
+        - name: user-service
           image: thaituan130803/user-service:latest
           ports:
             - containerPort: 8081

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notification-service-deployment
+  name: notification-service
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         app: notification-service
     spec:
       containers:
-        - name: notification-service-container
+        - name: notification-service
           image: thaituan130803/notification-service:latest
           ports:
             - containerPort: 8084

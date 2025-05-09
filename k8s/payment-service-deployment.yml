@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-deployment
+  name: payment-service
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         app: payment-service
     spec:
       containers:
-        - name: payment-container
+        - name: payment-service
           image: thaituan130803/payment-service:latest
           ports:
             - containerPort: 8085
