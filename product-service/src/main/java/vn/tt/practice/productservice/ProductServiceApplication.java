@@ -21,6 +21,6 @@ public class ProductServiceApplication {
 
     @GetMapping("/test")
     public String test() {
-        return "test";
+        return "test again";
     }
 }
