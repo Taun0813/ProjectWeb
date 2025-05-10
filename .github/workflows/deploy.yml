@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - BE
-#    paths:
-#      - 'BE/**'
+    paths:
+      - 'BE/**'
 
 env:
   REGISTRY: docker.io
