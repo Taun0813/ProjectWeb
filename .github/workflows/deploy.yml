@@ -3,9 +3,9 @@ name: CI/CD for Changed Services
 on:
   push:
     branches:
-      - 'BE'
-    paths:
-      - 'BE/**'
+      - BE
+#    paths:
+#      - 'BE/**'
 
 env:
   REGISTRY: docker.io
