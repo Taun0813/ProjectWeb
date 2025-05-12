@@ -11,6 +11,7 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
     steps:
 
@@ -58,7 +59,7 @@ jobs:
             echo "🚀 Building & pushing $SERVICE..."
           
             cd $SERVICE
-            mvn clean package -DskipTests
+            mvn clean package 
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/$SERVICE
           
             docker build -t $IMAGE_NAME:latest .
