@@ -77,7 +77,7 @@ jobs:
             echo "🚀 Building & pushing $SERVICE..."
           
             cd $SERVICE
-            ./mvnw clean package -DskipTests
+            mvn clean package -DskipTests
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/$SERVICE
           
             docker build -t $IMAGE_NAME:latest .
