@@ -80,4 +80,7 @@ jobs:
           for SERVICE in ${{ steps.detect-changes.outputs.changed_services }}; do
             echo "📦 Deploying $SERVICE to Kubernetes..."
             kubectl apply -f k8s/${SERVICE}-deployment.yaml
+
+            echo "🔍 Checking rollout status for $SERVICE..."
+            kubectl rollout status deployment/$SERVICE-deployment --timeout=60s || true
           done
