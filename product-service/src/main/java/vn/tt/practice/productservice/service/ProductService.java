@@ -28,39 +28,39 @@ public class ProductService {
         return products.map(productMapper::toDTO);
     }
 
-//    @CacheEvict(value = "products", allEntries = true)
-//    public ProductDTO createProduct(ProductDTO productDTO) {
-//        Optional<Product> checkProduct = productRepo.findByProductCode(productDTO.getProductCode());
-//        Product saveProduct;
-//
-//        if (checkProduct.isPresent())
-//        {
-//            Product product = checkProduct.get();
-//            product.setQuantity(product.getQuantity() + productDTO.getQuantity());
-//            saveProduct = productRepo.save(product);
-//        }else {
-//            saveProduct = productRepo.save(productMapper.toEntity(productDTO));
-//        }
-//        return productMapper.toDTO(saveProduct);
-//    }
-//
-//
-//    public ProductDTO addToCart(String id) {
-//        if (!productRepo.existsById(id)) {
-//            throw new RuntimeException("Product not found");
-//        }else {
-//            return productMapper.toDTO(productRepo.save(productRepo.findById(id).get()));
-//        }
-//    }
-//
-//    public ProductDTO removeFromCart(String id) {
-//        if (!productRepo.existsById(id)) {
-//            throw new RuntimeException("Product not found");
-//        }else {
-//            productRepo.deleteById(id);
-//        }
-//        return null;
-//    }
+    @CacheEvict(value = "products", allEntries = true)
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        Optional<Product> checkProduct = productRepo.findByProductCode(productDTO.getProductCode());
+        Product saveProduct;
+
+        if (checkProduct.isPresent())
+        {
+            Product product = checkProduct.get();
+            product.setQuantity(product.getQuantity() + productDTO.getQuantity());
+            saveProduct = productRepo.save(product);
+        }else {
+            saveProduct = productRepo.save(productMapper.toEntity(productDTO));
+        }
+        return productMapper.toDTO(saveProduct);
+    }
+
+
+    public ProductDTO addToCart(String id) {
+        if (!productRepo.existsById(id)) {
+            throw new RuntimeException("Product not found");
+        }else {
+            return productMapper.toDTO(productRepo.save(productRepo.findById(id).get()));
+        }
+    }
+
+    public ProductDTO removeFromCart(String id) {
+        if (!productRepo.existsById(id)) {
+            throw new RuntimeException("Product not found");
+        }else {
+            productRepo.deleteById(id);
+        }
+        return null;
+    }
 
 
 

@@ -21,6 +21,6 @@ public class ProductServiceApplication {
 
     @GetMapping("/test")
     public String test() {
-        return "Test CI/CD pt8!!!";
+        return "Test CI/CD pt9 !!!";
     }
 }

@@ -74,13 +74,25 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" > kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
 
-      - name: Deploy changed services to Kubernetes
-        if: steps.detect-changes.outputs.changed_services != ''
+      - name: Detect changed services
+        id: detect-changes
         run: |
-          for SERVICE in ${{ steps.detect-changes.outputs.changed_services }}; do
-            echo "📦 Deploying $SERVICE to Kubernetes..."
-            kubectl apply -f k8s/${SERVICE}-deployment.yaml
+          echo "🕵️ Detecting changes..."
+          CHANGED_SERVICES=""
+          SERVICES=("order-service" "user-service" "product-service" "payment-service" "notification-service" "eureka-server" "api-gateway")
 
-            echo "🔍 Checking rollout status for $SERVICE..."
-            kubectl rollout status deployment/$SERVICE-deployment --timeout=60s || true
-          done
+          git fetch
+          git diff --name-only HEAD^ HEAD > changed_files.txt || true
+
+          while IFS= read -r SERVICE; do
+            for FILE in $(cat changed_files.txt); do
+              if [[ $FILE == "$SERVICE/"* ]]; then
+                CHANGED_SERVICES+="$SERVICE "
+                break
+              fi
+            done
+          done <<< "${SERVICES[@]}"
+
+          echo "Changed services: $CHANGED_SERVICES"
+          echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
+      
