@@ -13,8 +13,7 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
-#      - name: Checkout source code
-#        uses: actions/checkout@v3
+
       - name: Checkout source code
         uses: actions/checkout@v3
         with:
@@ -36,22 +35,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-#      - name: Detect changed services
-#        id: detect-changes
-#        run: |
-#          echo "🕵️ Detecting changes..."
-#          CHANGED_SERVICES=""
-#          SERVICES=("order-service" "user-service" "product-service" "payment-service" "notification-service" "eureka-server" "api-gateway")
-#
-#          git fetch origin BE
-#          for SERVICE in "${SERVICES[@]}"; do
-#            if git diff --name-only origin/BE HEAD | grep "^$SERVICE/"; then
-#              CHANGED_SERVICES+="$SERVICE "
-#            fi
-#          done
-#
-#          echo "Changed services: $CHANGED_SERVICES"
-#          echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
       - name: Detect changed services
         id: detect-changes
         run: |
@@ -67,8 +50,6 @@ jobs:
 
           echo "Changed services: $CHANGED_SERVICES"
           echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
-      
-      
 
       - name: Build & push changed services
         if: steps.detect-changes.outputs.changed_services != ''
@@ -97,11 +78,12 @@ jobs:
 
       - name: Deploy changed services to Kubernetes
         if: steps.detect-changes.outputs.changed_services != ''
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
         run: |
           for SERVICE in ${{ steps.detect-changes.outputs.changed_services }}; do
             echo "📦 Deploying $SERVICE to Kubernetes..."
             kubectl apply -f k8s/${SERVICE}-deployment.yaml
-
-            echo "🔍 Checking rollout status for $SERVICE..."
-            kubectl rollout status deployment/$SERVICE-deployment --timeout=60s || true
+            kubectl rollout status deployment/${SERVICE}-deployment --timeout=60s || true
           done
+      
