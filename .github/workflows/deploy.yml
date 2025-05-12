@@ -31,6 +31,22 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+#      - name: Detect changed services
+#        id: detect-changes
+#        run: |
+#          echo "🕵️ Detecting changes..."
+#          CHANGED_SERVICES=""
+#          SERVICES=("order-service" "user-service" "product-service" "payment-service" "notification-service" "eureka-server" "api-gateway")
+#
+#          git fetch origin BE
+#          for SERVICE in "${SERVICES[@]}"; do
+#            if git diff --name-only origin/BE HEAD | grep "^$SERVICE/"; then
+#              CHANGED_SERVICES+="$SERVICE "
+#            fi
+#          done
+#
+#          echo "Changed services: $CHANGED_SERVICES"
+#          echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
       - name: Detect changed services
         id: detect-changes
         run: |
@@ -38,15 +54,15 @@ jobs:
           CHANGED_SERVICES=""
           SERVICES=("order-service" "user-service" "product-service" "payment-service" "notification-service" "eureka-server" "api-gateway")
 
-          git fetch origin BE
           for SERVICE in "${SERVICES[@]}"; do
-            if git diff --name-only origin/BE HEAD | grep "^$SERVICE/"; then
+            if git diff --name-only HEAD^ HEAD | grep "^$SERVICE/"; then
               CHANGED_SERVICES+="$SERVICE "
             fi
           done
 
           echo "Changed services: $CHANGED_SERVICES"
           echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
+      
       
 
       - name: Build & push changed services
@@ -74,19 +90,13 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" > kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
 
-      - name: Detect changed services
-        id: detect-changes
+      - name: Deploy changed services to Kubernetes
+        if: steps.detect-changes.outputs.changed_services != ''
         run: |
-          echo "🕵️ Detecting changes..."
-          CHANGED_SERVICES=""
-          SERVICES=("order-service" "user-service" "product-service" "payment-service" "notification-service" "eureka-server" "api-gateway")
+          for SERVICE in ${{ steps.detect-changes.outputs.changed_services }}; do
+            echo "📦 Deploying $SERVICE to Kubernetes..."
+            kubectl apply -f k8s/${SERVICE}-deployment.yaml
 
-          for SERVICE in "${SERVICES[@]}"; do
-            if git diff --name-only HEAD^ HEAD | grep "^$SERVICE/"; then
-              CHANGED_SERVICES+="$SERVICE "
-            fi
+            echo "🔍 Checking rollout status for $SERVICE..."
+            kubectl rollout status deployment/$SERVICE-deployment --timeout=60s || true
           done
-
-          echo "Changed services: $CHANGED_SERVICES"
-          echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
-      
