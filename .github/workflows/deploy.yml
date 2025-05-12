@@ -81,17 +81,11 @@ jobs:
           CHANGED_SERVICES=""
           SERVICES=("order-service" "user-service" "product-service" "payment-service" "notification-service" "eureka-server" "api-gateway")
 
-          git fetch
-          git diff --name-only HEAD^ HEAD > changed_files.txt || true
-
-          while IFS= read -r SERVICE; do
-            for FILE in $(cat changed_files.txt); do
-              if [[ $FILE == "$SERVICE/"* ]]; then
-                CHANGED_SERVICES+="$SERVICE "
-                break
-              fi
-            done
-          done <<< "${SERVICES[@]}"
+          for SERVICE in "${SERVICES[@]}"; do
+            if git diff --name-only HEAD^ HEAD | grep "^$SERVICE/"; then
+              CHANGED_SERVICES+="$SERVICE "
+            fi
+          done
 
           echo "Changed services: $CHANGED_SERVICES"
           echo "changed_services=$CHANGED_SERVICES" >> $GITHUB_OUTPUT
