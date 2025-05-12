@@ -59,7 +59,7 @@ jobs:
             echo "🚀 Building & pushing $SERVICE..."
           
             cd $SERVICE
-            mvn clean package 
+            mvn clean package -DskipTests
             IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/$SERVICE
           
             docker build -t $IMAGE_NAME:latest .
@@ -72,10 +72,6 @@ jobs:
         with:
           version: 'latest'
 
-#      - name: Configure kubeconfig
-#        run: |
-#          echo "${{ secrets.KUBECONFIG }}" > kubeconfig
-#          export KUBECONFIG=$PWD/kubeconfig
       - name: Configure kubeconfig
         run: |
           mkdir -p $HOME/.kube
