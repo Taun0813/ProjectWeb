@@ -24,10 +24,13 @@ public class OrderController {
 
     @PostMapping("/place-order")
     public ResponseEntity<Payload> placeOrder(@RequestBody Payload request) {
+        System.out.println("Payment method received: " + request.getPaymentMethod());
         PaymentMethod method = PaymentMethod.fromCode(request.getPaymentMethod());
         if (request.getUser_id() == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please login first");
         }
+        
+
         Payload createdOrder = orderService.placeOrder(request);
         return ResponseEntity.ok(createdOrder);
     }

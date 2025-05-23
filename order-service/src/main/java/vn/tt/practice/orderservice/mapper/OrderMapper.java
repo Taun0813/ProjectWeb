@@ -20,11 +20,7 @@ public class OrderMapper {
                 .totalItemCount(orderDTO.getTotalItemCount())
                 .user_id(orderDTO.getUser_id())
                 .status(orderDTO.getStatus())
-                .paymentMethod(
-                        orderDTO.getPaymentMethod() != null
-                                ? PaymentMethod.valueOf(orderDTO.getPaymentMethod().toUpperCase())
-                                : null
-                ) // Enum conversion
+                .paymentMethod(orderDTO.getPaymentMethod())
                 .build();
 
     }
@@ -43,11 +39,7 @@ public class OrderMapper {
                 .totalItemCount(order.getTotalItemCount())
                 .user_id(order.getUser_id())
                 .status(order.getStatus())
-                .paymentMethod(
-                        order.getPaymentMethod() != null
-                                ? order.getPaymentMethod().name()
-                                : null
-                ) // Enum conversion
+                .paymentMethod(order.getPaymentMethod())
                 .build();
 
     }

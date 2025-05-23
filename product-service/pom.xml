@@ -7,8 +7,6 @@
         <groupId>vn.tt.practice</groupId>
         <artifactId>BE</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-<!--        <relativePath>../pom.xml</relativePath>-->
-<!--        <relativePath/>-->
     </parent>
 
     <artifactId>product-service</artifactId>

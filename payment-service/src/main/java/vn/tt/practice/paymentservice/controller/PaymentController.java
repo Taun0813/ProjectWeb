@@ -24,9 +24,9 @@ public class PaymentController {
 
     @GetMapping("/create-payment")
     public ResponseEntity<?> createPayment(
-            @RequestParam long amount,
-            @RequestParam(required = false) String bankCode,
-            @RequestParam(required = false, defaultValue = "vn") String language,
+            @RequestParam("amount") long amount,
+//            @RequestParam(required = false) String bankCode,
+//            @RequestParam(required = false, defaultValue = "vn") String language,
             HttpServletRequest req) throws UnsupportedEncodingException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
@@ -46,9 +46,9 @@ public class PaymentController {
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
 
-        if (bankCode != null && !bankCode.isEmpty()) {
-            vnp_Params.put("vnp_BankCode", bankCode);
-        }
+//        if (bankCode != null && !bankCode.isEmpty()) {
+//            vnp_Params.put("vnp_BankCode", bankCode);
+//        }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_OrderType", orderType);
@@ -125,13 +125,9 @@ public class PaymentController {
             String responseCode = vnpParams.get("vnp_ResponseCode");
 
             if ("00".equals(responseCode)) {
-                // ✅ Thanh toán thành công
-                // TODO: cập nhật trạng thái đơn hàng theo vnp_TxnRef nếu cần
-
-                response.sendRedirect("http://localhost:5173/payment/success");
+                response.sendRedirect("http://localhost:5173/payment/result?vnp_ResponseCode=00");
             } else {
-                // ❌ Thanh toán thất bại
-                response.sendRedirect("http://localhost:5173/payment/fail");
+                response.sendRedirect("http://localhost:5173/payment/result?vnp_ResponseCode=" + responseCode);
             }
         } else {
             // ❌ Sai hash, không xác minh được danh tính VNPay

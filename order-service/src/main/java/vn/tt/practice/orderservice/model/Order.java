@@ -1,5 +1,6 @@
 package vn.tt.practice.orderservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +28,10 @@ public class Order {
     private String promo_code;
     private String contact_number;
     private String user_id;
-    private PaymentMethod paymentMethod;
+
+//    @JsonProperty("payment_method")
+    private String paymentMethod;
+
     private String status;
 
 

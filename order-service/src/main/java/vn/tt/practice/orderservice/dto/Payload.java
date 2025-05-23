@@ -24,12 +24,9 @@ public class Payload {
     private String contact_number;
     private String user_id;
 
-    @JsonProperty("payment_method")
+//    @JsonProperty("payment_method")
     private String paymentMethod;
 
     private String status;
-
-
-
 
 }
