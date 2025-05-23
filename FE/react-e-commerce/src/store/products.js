@@ -190,8 +190,6 @@ const useStore = () => {
     }
   };
   const getProducts = () => {
-    // fetch(`${import.meta.env.VITE_API_URL}/products`)
-    // fetch(`http://localhost:8081/v1/api/products`)
     fetch(`${import.meta.env.VITE_API_URL}/products`)
       .then(async (response) => {
         const data = await response.json();
@@ -258,7 +256,9 @@ const useStore = () => {
       promo_code: order.promo_code || "",
       contact_number: order.phoneNumber,
       user_id: order.user_id,
+      paymentMethod: order.paymentMethod,
     };
+
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/order/place-order`,
       {
@@ -271,11 +271,33 @@ const useStore = () => {
         body: JSON.stringify(payload),
       }
     );
+
     const data = await response.json();
     if (data.error) {
       toast.error("You must be logged in to place an order");
       return { showRegisterLogin: true };
     }
+
+    if (order.paymentMethod === "VNPAY") {
+      const amount = order.costAfterDelieveryRate * 1000000;
+      const paymentRes = await fetch(
+          `${import.meta.env.VITE_API_URL}/payment/create-payment?amount=${amount}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+      );
+
+      const paymentData = await paymentRes.json();
+
+      if (paymentData.url) {
+        window.location.href = paymentData.url;
+      }else {
+        toast.error("Không thể tạo link thanh toán VNPay");
+      }
+      return ;
+    }
+
     toast.success("Order successful. Pls check your email");
     clearCart();
     return true;

@@ -41,9 +41,9 @@ function App() {
           <Route path="/dashboard" element={<ProtectRoute><AdminView /></ProtectRoute>}>
             <Route path="product" element={<ProtectRoute><ProductTable /></ProtectRoute>} />
             <Route path="orders" element={<ProtectRoute><OrdersTable /></ProtectRoute>} />
-              {/*<Route path="/payment-result" element={<PaymentResult />} />*/}
             <Route path="users" element={<UsersTable />} />
           </Route>
+          <Route path="/payment/result" element={<PaymentResult />} />
           <Route path="*" element={<ErrorView />} />
         </Routes>
         <footer>

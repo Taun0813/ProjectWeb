@@ -13,23 +13,6 @@ const OrderSummary = () => {
     setDeliveryType(type);
   };
 
-  const initiateVNPay = async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/payment/create-payment`, {
-        method: "GET",
-      });
-      const data = await res.json();
-      if (data?.url) {
-        window.location.href = data.url; // Redirect to VNPay
-      } else {
-        toast.error("VNPay did not return a valid URL.");
-      }
-    } catch (error) {
-      console.error("VNPay error:", error);
-      toast.error("Error initiating VNPay.");
-    }
-  };
-
 
   const checkOut = async () => {
     let payload = {
@@ -43,10 +26,6 @@ const OrderSummary = () => {
       user_id: auth.state.user?.id,
     };
     console.log(payload)
-    if (paymentMethod === "VNPay") {
-      await initiateVNPay();
-      return; // Don't continue checkout here
-    }
 
     const response = await store.confirmOrder(payload);
     if (response.showRegisterLogin) {
